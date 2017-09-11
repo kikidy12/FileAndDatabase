@@ -60,7 +60,7 @@ public class TextFileManager {
                 // -1은 EOF
 
                 // 한번에 모든 파일 내용을 불러오지 못할 수 도 있음.
-                // 따라서 while을 이용해 끝까지 읽게 한다.
+                // 따라서 w
             }
 
             fisMemo.close();

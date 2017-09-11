@@ -6,23 +6,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.the.fileanddatabase.util.ObjectFileManager;
+import com.example.the.fileanddatabase.util.ObjectManager2;
 
 import java.util.HashMap;
 
-public class MemoActivity extends BaseActivity {
+public class ObjectMamoActivity extends BaseActivity {
 
-    ObjectFileManager ofm = new ObjectFileManager(mContext);
+    ObjectManager2 mObjectManager2 = new ObjectManager2(mContext);
 
     private android.widget.Button loadBtn;
     private android.widget.Button saveBtn;
     private android.widget.Button deleteBtn;
+    private android.widget.EditText titleEdt;
     private android.widget.EditText contentEdt;
-    private EditText titleEdt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_object_mamo);
         BindViews();
         SetupEvents();
         SetValues();
@@ -30,44 +31,41 @@ public class MemoActivity extends BaseActivity {
 
     @Override
     public void SetupEvents() {
-
-        loadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                titleEdt.setText(ofm.load().get("title"));
-                contentEdt.setText(ofm.load().get("content"));
-
-                Toast.makeText(mContext, "메모 로드 완료", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, String> memoData = new HashMap<String, String>();
+                HashMap<String, String> inputData = new HashMap<String, String>();
+                inputData.put("title", titleEdt.getText().toString());
+                inputData.put("content", contentEdt.getText().toString());
 
-                memoData.put("title", titleEdt.getText().toString());
-                memoData.put("content", contentEdt.getText().toString());
                 titleEdt.setText("");
                 contentEdt.setText("");
-                ofm.svae(memoData);
 
+                mObjectManager2.save(inputData);
                 Toast.makeText(mContext, "메모 세이브 완료", Toast.LENGTH_SHORT).show();
             }
         });
 
+        loadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                titleEdt.setText(mObjectManager2.load().get("title"));
+                contentEdt.setText(mObjectManager2.load().get("content"));
+
+                Toast.makeText(mContext, "메모 로드 완료", Toast.LENGTH_SHORT).show();
+            }
+        });
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ofm.delete();
+                mObjectManager2.delete();
+
                 titleEdt.setText("");
                 contentEdt.setText("");
 
                 Toast.makeText(mContext, "메모 삭제 완료", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
@@ -77,7 +75,6 @@ public class MemoActivity extends BaseActivity {
 
     @Override
     public void BindViews() {
-        setContentView(R.layout.activity_memo);
         this.contentEdt = (EditText) findViewById(R.id.contentEdt);
         this.titleEdt = (EditText) findViewById(R.id.titleEdt);
         this.deleteBtn = (Button) findViewById(R.id.deleteBtn);
