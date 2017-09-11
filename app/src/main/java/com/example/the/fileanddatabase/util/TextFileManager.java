@@ -13,6 +13,8 @@ import java.io.IOException;
 
 public class TextFileManager {
 
+    // 내용을 저장하는데 사용할 파일 명
+    // 실제로 내장 메모리 안네 memo.txt파일이 생성되어있음
     private final static String memoFileName = "memo.txt";
 
     Context mContext;
@@ -29,6 +31,7 @@ public class TextFileManager {
             return;
         }
 
+        // 파일의 저장은 엡에서 산출물을 내보내는 역할을 하기에 output을 사용한다.
         FileOutputStream fosMemo = null;
 
         try {
@@ -54,6 +57,10 @@ public class TextFileManager {
             while (fisMemo.read(memoData) != -1) {
                 // 파일이 끝날때가지 계속해서 읽어들인다.
                 // read의 결과가 -1이라는 것은 파일이 종료됨을 의미함.
+                // -1은 EOF
+
+                // 한번에 모든 파일 내용을 불러오지 못할 수 도 있음.
+                // 따라서 while을 이용해 끝까지 읽게 한다.
             }
 
             fisMemo.close();

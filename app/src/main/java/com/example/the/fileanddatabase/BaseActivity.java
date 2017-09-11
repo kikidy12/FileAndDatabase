@@ -1,5 +1,6 @@
 package com.example.the.fileanddatabase;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 /**
@@ -7,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
  */
 
 public abstract class BaseActivity extends AppCompatActivity{
+
+    Context mContext = this;
 
     public abstract void SetupEvents();
     public abstract void SetValues();

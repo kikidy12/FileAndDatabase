@@ -6,11 +6,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.the.fileanddatabase.util.TextFileManager;
+import com.example.the.fileanddatabase.util.TxtManager;
 
-public class MainActivity extends BaseActivity {
+public class MemoActivity extends BaseActivity {
 
-    TextFileManager mTextFileManager = new TextFileManager(mContext);
+    TxtManager mTxtManager = new TxtManager(mContext);
 
     private android.widget.Button loadBtn;
     private android.widget.Button saveBtn;
@@ -20,18 +20,20 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_memo);
         BindViews();
-        SetValues();
         SetupEvents();
+        SetValues();
     }
 
     @Override
     public void SetupEvents() {
+
         loadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String memoContent = mTextFileManager.load();
+                String memoContent = mTxtManager.loadMemo();
+
                 contentEdt.setText(memoContent);
 
                 Toast.makeText(mContext, "메모 로드 완료", Toast.LENGTH_SHORT).show();
@@ -41,22 +43,22 @@ public class MainActivity extends BaseActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTextFileManager.saveMemo(contentEdt.getText().toString());
+                mTxtManager.saveMemo(contentEdt.getText().toString());
 
-                contentEdt.setText("");
-                Toast.makeText(mContext, "메모 저장 완료", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "메모 세이브 완료", Toast.LENGTH_SHORT).show();
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTextFileManager.delete();
+                mTxtManager.close();
                 contentEdt.setText("");
 
                 Toast.makeText(mContext, "메모 삭제 완료", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
