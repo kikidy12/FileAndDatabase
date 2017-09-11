@@ -69,4 +69,8 @@ public class TextFileManager {
         return "";
     }
 
+    public void delete() {
+        mContext.deleteFile(memoFileName);
+    }
+
 }
